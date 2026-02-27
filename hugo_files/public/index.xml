@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GabrielBLOg</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on GabrielBLOg</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Thu, 26 Feb 2026 23:17:30 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial 1 - Setup QEMU e libvirt</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial1-setup-qemu-libvirt/</link>
+      <pubDate>Thu, 26 Feb 2026 23:17:30 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial1-setup-qemu-libvirt/</guid>
+      <description>1. Considerações iniciais De início, pude observar que minha experiência prévia com Linux me ajudou na resolução de alguns problemas/erros que obtive durante o tutorial (valeu a pena ser curioso :D ). Achei muito interessante estarmos usando um software (QEMU) que, além de ter a licença GPL, possui como interface principal a linha de comando, já que todas as outras ferramentas que usei de virtualização (VirtualBox e HyperV, por exemplo) possuem interface gráfica e configurações diferentes.</description>
+    </item>
+  </channel>
+</rss>

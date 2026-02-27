@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Tutorial 1 - Setup QEMU e libvirt &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/palettes/base16-dark.css">
+<link rel="stylesheet" href="http://localhost:1313/css/risotto.css">
+<link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 1 - Setup QEMU e libvirt &ndash; GabrielBLOg" />
+<meta property="og:url" content="http://localhost:1313/posts/desenvolvimento_software_divre/tutorial1-setup-qemu-libvirt/" />
+
+  
+
+<meta property="og:locale" content="pt-br" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="http://localhost:1313/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="http://localhost:1313/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 1 - Setup QEMU e libvirt</h1>
+    </header>
+    <div class="content__body">
+        <h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>De início, pude observar que minha experiência prévia com Linux me ajudou na resolução de alguns problemas/erros que obtive durante o tutorial (valeu a pena ser curioso :D ). Achei muito interessante estarmos usando um software (QEMU) que, além de ter a licença GPL, possui como interface principal a linha de comando, já que todas as outras ferramentas que usei de virtualização (VirtualBox e HyperV, por exemplo) possuem interface gráfica e configurações diferentes.</p>
+<h2 id="2-instalação-de-dependências">2. Instalação de dependências</h2>
+<p>Pela minha distro (Linux Mint) ser uma derivada do Ubuntu, que por sua vez é derivada do Debian, não obtive problemas relacionados à instalação ou similares.</p>
+<h2 id="3-configurações-de-diretórioscript--de-ambiente">3. Configurações de diretório/script  de ambiente</h2>
+<p>Nesta etapa, mesmo adicionando meu usuário ao grupo do libvirt-qemu, não obtive sucesso ao tentar realizar modificações com ele. A solução foi utilizar o comando setfacl para adicionar permissões adicionais para meu usuário, especificamente.</p>
+<p>Ao realizar o download da imagem do debian, percebi que o retorno, ao realizar a requisição para o link da imagem do sistema, era de 404. A fim de obter uma imagem, apenas retornei para o caminho que contém as imagens (<a href="https://cdimage.debian.org/cdimage/cloud/bookworm/daily">https://cdimage.debian.org/cdimage/cloud/bookworm/daily</a>) e obtive a <a href="https://cdimage.debian.org/cdimage/cloud/bookworm/daily/20260223-2397/debian-12-nocloud-arm64-daily-20260223-2397.qcow2">https://cdimage.debian.org/cdimage/cloud/bookworm/daily/20260223-2397/debian-12-nocloud-arm64-daily-20260223-2397.qcow2</a>, que segue as mesmas especificações da utilizada no tutorial.</p>
+<p>Despertou meu interesse a extensão da imagem, e vi que ela possui recursos que permitem uma maior economia de espaço, uso de snapshots e encriptação/compactação, sendo ótima para nosso propósito.</p>
+<h2 id="4-comandos-relacionados-à-imagem">4. Comandos relacionados à imagem</h2>
+<p>Alguns comandos, como o virt-filesystems, não rodavam sem privilégios elevados. Ao configurar o comando para obter logs detalhados, pude observar que, por algum motivo, este comando tenta acessar o arquivo &ldquo;/boot/vmlinuz-6.8.0-90-generic&rdquo;, que seria o kernel do meu sistema. Rodar os comandos com sudo resolveu este problema.</p>
+<p>Apesar de já ter sido introduzido ao rootfs e à nomenclatura de /dev/sdaX anteriormente, um ponto interessante foi a menção ao initrd, algo que não sabia exatamente o conceito, e ao pesquisar descobri que ele carrega um sistema de arquivos temporário em memória, carregando os principais módulos e preparando o mount do sistema de arquivos raíz. (aprendizados importantes e divertidos :D)</p>
+<h2 id="5-subindo-a-vm-e-configurando-a">5. Subindo a VM e configurando-a</h2>
+<p>Logo de início, o libvirtd me lembrou bastante a utilização de docker para conteinerização, mesmo que ambos sejam utilizados para coisas distintas. Tive que utilizar alguns comandos do virsh, como destroy e undefine para resolver alguns comandos errados e recriar a VM :P</p>
+<h3 id="51-configuração-ssh">5.1 Configuração SSH</h3>
+<p>Por algum motivo, o sistema estava sem o openssh-server instalado, tive que dar um apt-get update e instalá-lo. Após, consegui seguir com a configuração (já usei e configurei servidores e acessos SSH, então foi bem familiar essa parte). Além disso, criei um script de connect na pasta raíz do projeto-tutorial para não esquecer o IP da VM (obtido através do output do comando &ldquo;virsh net-dhcp-leases default&rdquo;).</p>
+<h2 id="52-configuração-de-pasta-compartilhada-entre-vm---host">5.2 Configuração de pasta compartilhada entre VM &lt;-&gt; host</h2>
+<p>Um problema que pude perceber no tutorial é o nome utilizado no comando &ldquo;sudo EDITOR=vim; sudo virsh edit iio-arm64&rdquo; - o nome iio-arm64 vai variar dependendo do nome atribuído à VM (que no caso do tutorial, era apenas arm64). Além disso, o pacote &ldquo;virtiofsd&rdquo; precisou ser instalado para que eu conseguisse completar esta configuração.</p>
+<h2 id="considerações-finais">Considerações finais</h2>
+<p>No geral, foi muito proveitosa e um tanto divertido seguir o tutorial e pesquisar conceitos que eu não eram muito familiares, além de conseguir por em prática alguns conhecimentos na resolução dos problemas que foram surgindo. Empolgado para os próximos passos!</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-02-26
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>

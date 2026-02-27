@@ -1,0 +1,23 @@
+baseURL = 'https://gabrielbraga7.github.io/blog'
+languageCode = "pt"
+DefaultContentLanguage = "pt"
+enableInlineShortcodes = true
+title = 'GabrielBLOg'
+theme = 'risotto'
+
+# Automatically add content sections to main menu
+sectionPagesMenu = "main"
+
+[pagination]
+pagerSize = 3
+
+[params]
+noindex = false
+
+[params.post]
+sectionPagesMenu = "main"
+
+
+[params.theme]
+# palette = "tokyo-night-dark"
+palette = "material"

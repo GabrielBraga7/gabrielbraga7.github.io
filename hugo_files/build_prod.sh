@@ -1,0 +1,1 @@
+hugo --config hugo_prod.toml --destination ../blog
