@@ -33,7 +33,7 @@ Logo de início, o libvirtd me lembrou bastante a utilização de docker para co
 
 Por algum motivo, o sistema estava sem o openssh-server instalado, tive que dar um apt-get update e instalá-lo. Após, consegui seguir com a configuração (já usei e configurei servidores e acessos SSH, então foi bem familiar essa parte). Além disso, criei um script de connect na pasta raíz do projeto-tutorial para não esquecer o IP da VM (obtido através do output do comando "virsh net-dhcp-leases default").
 
-## 5.2 Configuração de pasta compartilhada entre VM <-> host
+### 5.2 Configuração de pasta compartilhada entre VM <-> host
 
 Um problema que pude perceber no tutorial é o nome utilizado no comando "sudo EDITOR=vim; sudo virsh edit iio-arm64" - o nome iio-arm64 vai variar dependendo do nome atribuído à VM (que no caso do tutorial, era apenas arm64). Além disso, o pacote "virtiofsd" precisou ser instalado para que eu conseguisse completar esta configuração.
 
