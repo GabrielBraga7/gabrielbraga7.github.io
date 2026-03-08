@@ -3,6 +3,8 @@ title = 'Tutorial 1 - Setup QEMU e libvirt'
 date = 2026-02-26T23:17:30-03:00
 draft = false
 +++
+
+{{< back >}}
 ## 1. Considerações iniciais
 
 De início, pude observar que minha experiência prévia com Linux me ajudou na resolução de alguns problemas/erros que obtive durante o tutorial (valeu a pena ser curioso :D ). Achei muito interessante estarmos usando um software (QEMU) que, além de ter a licença GPL, possui como interface principal a linha de comando, já que todas as outras ferramentas que usei de virtualização (VirtualBox e HyperV, por exemplo) possuem interface gráfica e configurações diferentes.

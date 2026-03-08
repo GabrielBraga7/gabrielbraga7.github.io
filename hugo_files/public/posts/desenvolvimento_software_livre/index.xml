@@ -6,14 +6,21 @@
     <description>Recent content in Desenvolvimento de Software Livre on GabrielBLOg</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Thu, 26 Feb 2026 23:17:30 -0300</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2026 20:10:30 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/desenvolvimento_software_livre/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial 2 - Setup KW e build do kernel</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/</link>
+      <pubDate>Sun, 08 Mar 2026 20:10:30 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/</guid>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Achei muito interessante o fato de estarmos usando um toolkit em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel agora. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos ou a criação de alguns apps CLI, não chega perto do tamanho do kw.</description>
+    </item>
     <item>
       <title>Tutorial 1 - Setup QEMU e libvirt</title>
       <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial1-setup-qemu-libvirt/</link>
       <pubDate>Thu, 26 Feb 2026 23:17:30 -0300</pubDate>
       <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial1-setup-qemu-libvirt/</guid>
-      <description>1. Considerações iniciais De início, pude observar que minha experiência prévia com Linux me ajudou na resolução de alguns problemas/erros que obtive durante o tutorial (valeu a pena ser curioso :D ). Achei muito interessante estarmos usando um software (QEMU) que, além de ter a licença GPL, possui como interface principal a linha de comando, já que todas as outras ferramentas que usei de virtualização (VirtualBox e HyperV, por exemplo) possuem interface gráfica e configurações diferentes.</description>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais De início, pude observar que minha experiência prévia com Linux me ajudou na resolução de alguns problemas/erros que obtive durante o tutorial (valeu a pena ser curioso :D ). Achei muito interessante estarmos usando um software (QEMU) que, além de ter a licença GPL, possui como interface principal a linha de comando, já que todas as outras ferramentas que usei de virtualização (VirtualBox e HyperV, por exemplo) possuem interface gráfica e configurações diferentes.</description>
     </item>
   </channel>
 </rss>

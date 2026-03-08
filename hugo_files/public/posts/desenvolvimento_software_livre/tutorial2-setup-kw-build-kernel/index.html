@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Tutorial 2 - Setup KW e build do kernel &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/palettes/material.css">
+<link rel="stylesheet" href="http://localhost:1313/css/risotto.css">
+<link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 2 - Setup KW e build do kernel &ndash; GabrielBLOg" />
+<meta property="og:url" content="http://localhost:1313/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="http://localhost:1313/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="http://localhost:1313/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 2 - Setup KW e build do kernel</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Achei muito interessante o fato de estarmos usando um <em>toolkit</em> em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel agora. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos ou a criação de alguns apps CLI, não chega perto do tamanho do kw.</p>
+<p>Além disso, é incrível notar que, apesar de termos a possibilidade de utilizarmos e desenvolvermos ferramentas auxiliares como o kw, apenas a utilização de makefiles, variáveis/flags e scripts são suficientes para um desenvolvedor do kernel, algo que é enorme e complexo.</p>
+<h2 id="2-instalaçãoconfiguração-do-kw-e-clone-do-iio">2. Instalação/configuração do kw e clone do IIO</h2>
+<p>A instalação ocorreu sem problemas, apenas tive a curiosidade de pesquisar mais a fundo sobre a utilização de branches stable/unstable, e vi que é basicamente uma medida organizacional para, enquanto uma nova versão com novas features é desenvolvida, a atual pode continuar a ser usada, testada e corrigida separadamente.</p>
+<p>Ao clonar o repo. do IIO, fiquei interessado e pesquisei sobre as branches principais do kernel, e achei muito interessante de saber que a branch mantida pelo Linus Torvalds é onde as novas features e desenvolvimento acontece, enquanto a stable é basicamente onde vão parar as mudanças quando ocorre uma release do kernel.</p>
+<p>Saber que o kw gerencia e fornece uma interface TUI para o gerenciamento de configurações, mas que é basicamente uma interface para alterar os dotfiles e agregar alguns comandos make/qemu-related foi muito útil para meu entendimento sobre a ferramenta.</p>
+<h2 id="3-configurações-para-compilação-do-kernel">3. Configurações para compilação do kernel</h2>
+<p>Para utilizar o comando &ldquo;kw ssh &ndash;get &lsquo;~/vm_mod_list&rsquo;&rdquo;, foi necessário instalar o rync na VM - a pasta compartilhada entre VM e host poderia ser usada, mas optei por analisar o erro e tentar corrigi-lo.</p>
+<p>Na etapa de gerar o arquivo .config, tive que pesquisar para entender o comando <code> make -C &quot;$IIO_TREE&quot; olddefconfig</code>, e descobri que a keyword &ldquo;olddefconfig&rdquo; serve para, quando já temos um .config criado, atualizar as configurações com as padrões.</p>
+<p>A TUI aberta pelo comando <code>make -C &quot;$IIO_TREE&quot; nconfig</code> lembra muito outras que já utilizei, como o htop e o Nano.</p>
+<h2 id="4-compilação-do-kernel">4. Compilação do kernel</h2>
+<p>Até a instalação dos módulos na VM, tudo ocorreu bem. Tive curiosidade sobre o que o comando de  <code>kw deploy --modules</code> faz, e vi, através do tutorial sem o kw do flusp (<a href="https://flusp.ime.usp.br/kernel/build-linux-for-arm/)">https://flusp.ime.usp.br/kernel/build-linux-for-arm/)</a>, que ele dá um mount no rootfs da VM com ela desligada, e instala os módulos compilados na VM. A compilação levou 11min., sendo que a primeira tentativa levou 5min. mas deu um erro não mapeado.</p>
+<h2 id="considerações-finais">Considerações finais</h2>
+<p>Muito útil e prático ter seguido o tutorial com o kw, muito em linha e seguindo alguns ótimos padrões de interface de aplicações, com alguns lembrando muito o git. Por fim, um levantamento interessante que surgiu desse tutorial foi de se existe um estudo mais detalhado sobre o impacto, em termos de tempo e qualidade da compilação, da cross-compilation vs a nativa em diferentes cenários.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-03-08
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>
