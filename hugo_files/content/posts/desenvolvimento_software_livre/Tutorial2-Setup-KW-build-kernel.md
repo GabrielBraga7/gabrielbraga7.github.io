@@ -7,9 +7,9 @@ draft = false
 {{< back >}}
 ## 1. Considerações iniciais
 
-Achei muito interessante o fato de estarmos usando um *toolkit* em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel agora. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos ou a criação de alguns apps CLI, não chega perto do tamanho do kw.
+Achei muito interessante o fato de estarmos usando um *toolkit* em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos e criação de alguns apps CLI, o tamanho/maturidade do kw é muito maior.
 
-Além disso, é incrível notar que, apesar de termos a possibilidade de utilizarmos e desenvolvermos ferramentas auxiliares como o kw, apenas a utilização de makefiles, variáveis/flags e scripts são suficientes para um desenvolvedor do kernel, algo que é enorme e complexo.
+Além disso, é interessante notar que, apesar de termos a possibilidade de utilizarmos e desenvolvermos ferramentas auxiliares como o kw, apenas a utilização de makefiles, variáveis/flags e scripts já seriam suficientes para um desenvolvedor do kernel.
 
 ## 2. Instalação/configuração do kw e clone do IIO
 
@@ -21,7 +21,7 @@ Saber que o kw gerencia e fornece uma interface TUI para o gerenciamento de conf
 
 ## 3. Configurações para compilação do kernel
 
-Para utilizar o comando "kw ssh --get '~/vm_mod_list'", foi necessário instalar o rync na VM - a pasta compartilhada entre VM e host poderia ser usada, mas optei por analisar o erro e tentar corrigi-lo.
+Para utilizar o comando ```kw ssh --get '~/vm_mod_list'```, foi necessário instalar o rsync na VM - a pasta compartilhada entre VM e host poderia ser usada, mas optei por analisar o erro e tentar corrigi-lo.
 
 Na etapa de gerar o arquivo .config, tive que pesquisar para entender o comando ```
 make -C "$IIO_TREE" olddefconfig```, e descobri que a keyword "olddefconfig" serve para, quando já temos um .config criado, atualizar as configurações com as padrões.
@@ -30,7 +30,7 @@ A TUI aberta pelo comando ```make -C "$IIO_TREE" nconfig``` lembra muito outras 
 
 ## 4. Compilação do kernel
 
-Até a instalação dos módulos na VM, tudo ocorreu bem. Tive curiosidade sobre o que o comando de  ```kw deploy --modules``` faz, e vi, através do tutorial sem o kw do flusp (https://flusp.ime.usp.br/kernel/build-linux-for-arm/), que ele dá um mount no rootfs da VM com ela desligada, e instala os módulos compilados na VM. A compilação levou 11min., sendo que a primeira tentativa levou 5min. mas deu um erro não mapeado.
+Até a instalação dos módulos na VM, tudo ocorreu bem. Tive curiosidade sobre o que o comando de  ```kw deploy --modules``` faz, e vi, através do tutorial sem o kw do flusp (https://flusp.ime.usp.br/kernel/build-linux-for-arm/), que ele dá um mount no rootfs da VM com ela desligada, e instala os módulos compilados na VM. A compilação levou 11min., sendo que a primeira tentativa levou 5min. mas deu um erro não mapeado (se resolveu sozinho :P).
 
 ## Considerações finais
 

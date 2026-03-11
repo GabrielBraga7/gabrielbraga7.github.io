@@ -13,7 +13,7 @@
       <link>https://gabrielbraga7.github.io/blog/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/</link>
       <pubDate>Sun, 08 Mar 2026 20:10:30 -0300</pubDate>
       <guid>https://gabrielbraga7.github.io/blog/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/</guid>
-      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Achei muito interessante o fato de estarmos usando um toolkit em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel agora. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos ou a criação de alguns apps CLI, não chega perto do tamanho do kw.</description>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Achei muito interessante o fato de estarmos usando um toolkit em linha de comando para automatizarmos/simplificarmos comando(s), além de ser muito útil para o desenvolvimento, ajuda demais pessoas como eu que estão entrando nesse universo de desenvolvimento do kernel. Apesar de já ter tido experiências similares, com scripts simples de automação de comandos repetitivos e criação de alguns apps CLI, o tamanho/maturidade do kw é muito maior.</description>
     </item>
     <item>
       <title>Tutorial 1 - Setup QEMU e libvirt</title>
