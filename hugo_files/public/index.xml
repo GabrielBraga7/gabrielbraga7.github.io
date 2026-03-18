@@ -6,8 +6,15 @@
     <description>Recent content on GabrielBLOg</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Sun, 08 Mar 2026 20:10:30 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 21:13:30 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial 3 - Introdução aos módulos do linux</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial3-modules-intro/</link>
+      <pubDate>Tue, 17 Mar 2026 21:13:30 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial3-modules-intro/</guid>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Logo de início, achei muito interessante a &amp;ldquo;interface&amp;rdquo; utilizada para a criação e comunicação com os módulos, como a definição da licença do módulo como MODULE_LICENSE(&amp;quot;GPL&amp;quot;) e a definição de dependências entre módulos como EXPORT_SYMBOL_NS_GPL(&amp;lt;function-export&amp;gt;, &amp;quot;&amp;lt;name&amp;gt;&amp;quot;), por ser uma maneira simples mas efetiva de implementar estes conceitos.&#xA;2. Criando e configurando os módulos Nesta parte, achei que poderia existir (não consegui descobrir se existe) uma ferramenta para adicionar a configuração e já organizar o arquivo seguindo as melhores práticas - além disso, caso o arquivo seja rígido em relação à formatação para manter a integridade das informações (não testei adicionar os módulos com uma formatação diferente), seria muito interessante ter algo do tipo.</description>
+    </item>
     <item>
       <title>Tutorial 2 - Setup KW e build do kernel</title>
       <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial2-setup-kw-build-kernel/</link>

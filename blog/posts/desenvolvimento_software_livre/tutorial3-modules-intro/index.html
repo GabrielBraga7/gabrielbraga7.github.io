@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><title>Tutorial 3 - Introdução aos módulos do linux &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/palettes/material.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/risotto.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 3 - Introdução aos módulos do linux &ndash; GabrielBLOg" />
+<meta property="og:url" content="https://gabrielbraga7.github.io/blog/posts/desenvolvimento_software_livre/tutorial3-modules-intro/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="https://gabrielbraga7.github.io/blog/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="https://gabrielbraga7.github.io/blog/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 3 - Introdução aos módulos do linux</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/blog/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Logo de início, achei muito interessante a &ldquo;interface&rdquo; utilizada para a criação e comunicação com os módulos, como a definição da licença do módulo como <code>MODULE_LICENSE(&quot;GPL&quot;)</code> e a definição de dependências entre módulos como <code>EXPORT_SYMBOL_NS_GPL(&lt;function-export&gt;, &quot;&lt;name&gt;&quot;)</code>, por ser uma maneira simples mas efetiva de implementar estes conceitos.</p>
+<h2 id="2-criando-e-configurando-os-módulos">2. Criando e configurando os módulos</h2>
+<p>Nesta parte, achei que poderia existir (não consegui descobrir se existe) uma ferramenta para adicionar a configuração e já organizar o arquivo seguindo as melhores práticas - além disso, caso o arquivo seja rígido em relação à formatação para manter a integridade das informações (não testei adicionar os módulos com uma formatação diferente), seria muito interessante ter algo do tipo.</p>
+<p>Fiquei apenas com a dúvida/curiosidade de saber o porquê adicionamos o prefixo obj- para o Makefile, provavelmente deve ser um padrão de nomenclatura.</p>
+<p>Percebi que, no tutorial, alguns recursos do kw utilizados previamente não foram utilizados aqui, como o comando <code>make -C &quot;$IIO_TREE&quot; menuconfig</code>ter sido usado ao invés do <code>kw build --menu</code>. Preferi a interface do segundo então acabei utilizando-o. Além deste, o <code>kw deploy --modules</code>não foi utilizado também, e tive alguns problemas de permissão ao usar o guestmount (consegui resolver com chmod e setfacl), além do problema ao tentar desmontar pelo comando do tutorial, já que a variável VM_MOUNT_POINT não foi definida.</p>
+<p>Sempre tive curiosidade sobre os logs do sistema/kernel, gostei bastante de saber sobre o <code>dmesg</code>.</p>
+<p>Por fim, outras coisas que me atrapalharam um pouco foram:</p>
+<ul>
+<li>O fato de, na hora de eu salvar o .config, ter selecionado a opção de salvar com outro nome na TUI (o que acabou fazendo com que os módulos não estivessem disponíveis no primeiro build);</li>
+<li>O IP da VM acaba sendo trocado periodicamente, preciso encontrar uma maneira de fixá-lo. Para essa questão e algumas outras, criei alguns scripts .sh na raíz do projeto (get_rootfs_img_disk.sh, get_vm_ip.sh, connect.sh) para ajudar com comandos que utilizei bastante.</li>
+</ul>
+<h2 id="3-considerações-finais">3. Considerações finais</h2>
+<p>Ao realizar os exercícios propostos, o primeiro deixou minha VM com o terminal &ldquo;travado&rdquo;, provavelmente devido à coisas importantes terem sido deixadas como módulos (ou eu fiz alguma besteira nessa parte), para reverter bastou eu refazer o .config, recompilar tudo, montar o disco da VM e passar os módulos para lá. Muito interessante esse tutorial, curioso para ver mais sobre o desenvolvimento e arquitetura dos módulos do kernel!</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-03-17
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>
