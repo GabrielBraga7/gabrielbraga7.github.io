@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><title>Tutorial 4 - Introdução aos &#34;Character Device Drivers&#34; &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/palettes/material.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/risotto.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 4 - Introdução aos &#34;Character Device Drivers&#34; &ndash; GabrielBLOg" />
+<meta property="og:url" content="https://gabrielbraga7.github.io/blog/posts/desenvolvimento_software_livre/tutorial4-char-drivers-intro/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="https://gabrielbraga7.github.io/blog/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="https://gabrielbraga7.github.io/blog/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 4 - Introdução aos &ldquo;Character Device Drivers&rdquo;</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/blog/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Sempre tive muita curiosidade para saber exatamente o que significavam alguns arquivos que acabava vendo por vezes em meu sistema, como os vários existentes em <code>/dev/*</code>. Ao tentar dar um cat ou aplicar alguma outra interação simples, não obtinha sucesso - acabei descobrindo depois que não eram &ldquo;arquivos comuns&rdquo;, mas com este tutorial consegui compreender melhor o que exatamente são esses arquivos especiais.</p>
+<h2 id="2-entendendo-os-conceitos-e-interagindo-com-o-código">2. Entendendo os conceitos e interagindo com o código</h2>
+<p>Achei a implementação em C da representação do identificador do dispositivo muito interessante, imaginava que seria algo mais complexo a interação com os dispositivos, porém, a estrutura de manipulação de bits com a struct do C + character device file se mostrou elegantemente simples (na medida do possível). Muito legal!</p>
+<p>Apesar de já ter utilizado C, nunca utilizei-o em um contexto de uma aplicação mais profissional, e nunca cheguei perto de algo tão robusto como o kernel linux. De início, tive que relembrar alguns conceitos para entender a sintaxe de algumas partes, como o tipo void* e os string formatters.</p>
+<p>Havia ficado confuso com as nomenclaturas usadas, porém cheguei à seguinte conclusão sobre as nomenclaturas e conceitos: há os <strong>character devices</strong>, e dentre eles temos os <strong>character device files</strong>, também chamados de <strong>device node</strong>, <strong>device file</strong>, ou <strong>device special file</strong>. Além disso, é possível termos arquivos comuns administrados pelos character device files, como a imagem do linux.</p>
+<p>Outro ponto interessante é o da necessidade de cópia entre os espaços de memória do kernel e do usuário. Apesar de ter entendido superficialmente, fiquei curioso sobre a existência/implementação de restrições de acesso a determinados espaços de memória, como o PAGE_OFFSET é aplicado, na prática, para garantir a segregação dos espaços, e se há alguma alternativa de otimização deste modelo que necessita da cópia de dados entre os espaços.</p>
+<h2 id="3-considerações-finais">3. Considerações finais</h2>
+<p>Nos exercícios propostos, obtive um pequeno problema ao tentar realizar o primeiro -&gt; percebi o meu erro de ter adicionado o &ldquo;print&rdquo; das informações antes da execução do cdev_add, então guardando o retorno em uma variável, realizando o &ldquo;print&rdquo; e retornando logo após resolveu o problema:</p>
+<pre><code>int mapping = cdev_add(s_cdev, dev_id, MINOR_NUMS);
+
+pr_info(&quot;Major: %u\n&quot;, MAJOR(dev_id));
+
+pr_info(&quot;Minor: %u\n&quot;, MINOR(dev_id));
+
+return mapping;</code></pre>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-03-24
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>
