@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Tutorial 7 e 8 - Aprendizado, configuração e implementações novas do iio_simple_dummy &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/palettes/material.css">
+<link rel="stylesheet" href="http://localhost:1313/css/risotto.css">
+<link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 7 e 8 - Aprendizado, configuração e implementações novas do iio_simple_dummy &ndash; GabrielBLOg" />
+<meta property="og:url" content="http://localhost:1313/posts/desenvolvimento_software_livre/tutorial7_8-iio-simple-dummy/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="http://localhost:1313/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="http://localhost:1313/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 7 e 8 - Aprendizado, configuração e implementações novas do iio_simple_dummy</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Muito interessante estar interagindo com código C produtivo e de uma forma mais direta neste tutorial, consegui aprender alguns usos de sintaxe e de estruturas que não havia sido apresentado, como a atribuição das propriedades de cada elemento da struct <code>iio_chan_spec</code> da forma <code>.&lt;prop&gt; = &lt;value&gt;</code> . Porém, confesso que, diferente dos outros tutoriais, o conteúdo foi mais denso e demorado para captar.</p>
+<h2 id="2-aprendendo-sobre-o-iio_simple_dummy">2. Aprendendo sobre o iio_simple_dummy</h2>
+<p>Ao ser apresentado aos conceitos que estão contidos na declaração da <code>struct iio_chan_spec iio_dummy_channels[]</code>, uma dúvida que surgiu foi a de o que o valor numérico, quando o .modified não é atribuído, significa. Vou questionar e trago uma resposta :)</p>
+<p>Acho importante também ressaltar a declaração do <code>.scan_type</code>, como ele permite o controle fino da tipagem, tamanho e especificações dos dados do buffer. Me deixou curioso para saber como que esse controle é de fato implementado.</p>
+<p>Uma sugestão para o tutorial 7 que tenho seria de explicar explicitamente sobre o tipo <code>iio_sw_device</code>, que não ficou 100% claro, apesar de ter entendido de forma superficial seu uso no código.</p>
+<p>Por fim, pesquisei sobre o kzalloc vs outras formas de <a href="https://www.kernel.org/doc/html/latest/core-api/memory-allocation.html">alocação de memória</a> e gostei de descobrir que existem diversas flag&rsquo;s e formas de alocar memória. Até então, só tinha utilizado o malloc, e além disso, não esperava ver o uso de &ldquo;goto&rdquo; no código, apesar de entender seu uso neste caso.</p>
+<h2 id="3-compilando-e-testando-o-iio_simple_dummy">3. Compilando e testando o iio_simple_dummy</h2>
+<p>Ao compilar o iio_simple_dummy, por vezes, o comando <code>make build</code> sozinho, ou até mesmo o utilizado no tutorial <code>make M=drivers/iio/dummy</code> não funcionam corretamente, sendo necessário utilizar o kw.</p>
+<p>Montar o configfs, que é um filesystem virtual que permite manipulação de objetos do kernel, foi uma experiência muito interessante, já que aparentemente ele mexe no seu fstab (onde mapeamos os discos, mount points e suas configs), além de tornar extremamente simples criar um novo objeto, com um mkdir.</p>
+<p>Pesquisei também sobre as diferenças entre o sysfs (/sys) e o configfs, e descobri que o sysfs serve mais a um propósito de visualização de device, drivers e estruturas do kernel. Com essas pesquisas, acabei descobrindo que o configfs fica em /sys/kernel/config, o que me leva a questionar o porquê montamos ele novamente? :P (apesar do questionamento, gosto do uso do mount como potencial levantador de curiosidades).</p>
+<h1 id="4-modificando-o-código-implementando-e-testando-novamente">4. Modificando o código, implementando e testando (novamente)</h1>
+<p>Na seção de adicionar canais para um compasso de 3 eixos, ao seguir o tutorial, percebi que o arquivo está levemente diferente da versão utilizada no tutorial, sendo que as modificações devem ser adaptadas, tanto em questões de lugar (ao invés de mudar o iio_dummy_read_raw, por exemplo, deve-se mudar o __iio_dummy_read_raw). Apesar disso, as adaptações são simples.</p>
+<h2 id="5-considerações-finais">5. Considerações finais</h2>
+<p>Certamente foi uma aventura muito interessante a de modificar um código mais complexo em C, compilá-lo e carregá-lo. Apesar do salto de complexidade em termos de conceito/familiaridade, no meu caso, achei muito importante e proveitoso esta etapa para a realização do futuro patch.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-04-07
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>

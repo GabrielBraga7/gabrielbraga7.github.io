@@ -6,8 +6,22 @@
     <description>Recent content in Desenvolvimento de Software Livre on GabrielBLOg</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 24 Mar 2026 22:22:00 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 22:03:00 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/desenvolvimento_software_livre/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial 7 e 8 - Aprendizado, configuração e implementações novas do iio_simple_dummy</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial7_8-iio-simple-dummy/</link>
+      <pubDate>Tue, 07 Apr 2026 22:03:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial7_8-iio-simple-dummy/</guid>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Muito interessante estar interagindo com código C produtivo e de uma forma mais direta neste tutorial, consegui aprender alguns usos de sintaxe e de estruturas que não havia sido apresentado, como a atribuição das propriedades de cada elemento da struct iio_chan_spec da forma .&amp;lt;prop&amp;gt; = &amp;lt;value&amp;gt; . Porém, confesso que, diferente dos outros tutoriais, o conteúdo foi mais denso e demorado para captar.</description>
+    </item>
+    <item>
+      <title>Tutorial 5 e 6 - Setup do envio de patchs por e-mail utilizando o kw e git send-email</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial5_6-setup-patch-send-email/</link>
+      <pubDate>Fri, 03 Apr 2026 18:32:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial5_6-setup-patch-send-email/</guid>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Apesar de já ter trabalhado com diversas plataformas para Git (Github, Azure Devops, etc.) e de já ter subido e gerenciado serviços git bem simples em servidores internos, nunca chegou ao meu conhecimento que a forma utilizada para abrir merge requests para o kernel linux seria via e-mail. Pelo tamanho, natureza, importância e complexidade do projeto, eu esperava uma sofisticação maior de ferramenta, mesmo que o processo em si seja sólido e robusto.</description>
+    </item>
     <item>
       <title>Tutorial 4 - Introdução aos &#34;Character Device Drivers&#34;</title>
       <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial4-char-drivers-intro/</link>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><title>Tutorial 5 e 6 - Setup do envio de patchs por e-mail utilizando o kw e git send-email &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/palettes/material.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/risotto.css">
+<link rel="stylesheet" href="https://gabrielbraga7.github.io/blog/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Tutorial 5 e 6 - Setup do envio de patchs por e-mail utilizando o kw e git send-email &ndash; GabrielBLOg" />
+<meta property="og:url" content="https://gabrielbraga7.github.io/blog/posts/desenvolvimento_software_livre/tutorial5_6-setup-patch-send-email/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="https://gabrielbraga7.github.io/blog/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="https://gabrielbraga7.github.io/blog/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Tutorial 5 e 6 - Setup do envio de patchs por e-mail utilizando o kw e git send-email</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/blog/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Apesar de já ter trabalhado com diversas plataformas para Git (Github, Azure Devops, etc.) e de já ter subido e gerenciado serviços git bem simples em servidores internos, nunca chegou ao meu conhecimento que a forma utilizada para abrir <em>merge requests</em> para o kernel linux seria via e-mail. Pelo tamanho, natureza, importância e complexidade do projeto, eu esperava uma sofisticação maior de ferramenta, mesmo que o processo em si seja sólido e robusto. Ao pesquisar sobre, vi que alguns dos principais motivos é a escalabilidade, já que o e-mail é rápido, acessível e bom para ser utilizado em automações <a href="https://lwn.net/Articles/702177/">¹</a>. Uma solução simples e que funciona :)</p>
+<h2 id="2-configurando-o-git-para-envio-dos-emails">2. Configurando o git para envio dos emails</h2>
+<p>Ao realizar a configuração e alterar o autor/email, percebi que, ao testar o <code>git send-email</code> em um repositório que já havia realizado commits no passado, o e-mail utilizado para envio é diferente do e-mail do autor dos commits, levantando a questão se não deveria ter uma restrição ou controle neste tipo de divergências. Além disso, vale destacar alguns pontos interessantes de comentar:</p>
+<ul>
+<li>O uso do <code>--dry-run</code> é muito útil, provavelmente muito utilizado em scripts de automação;</li>
+<li>Sobre o esquema de versionamento de patches, apesar de ser parece simples e funcional, parece haver espaço para melhorias com a introdução de ferramentas;</li>
+<li>A versão do git é adicionada no corpo da mensagem de e-mail, o que também pode ser uma informação útil para scripts de automação;</li>
+<li>Muito interessante que, assim como quando executamos um <code>git commit</code> e recebemos um resumo das modificações (arquivos, linhas modificadas, etc) que foram realizadas, o corpo do e-mail também a contém, como:</li>
+</ul>
+<pre tabindex="0"><code>test.txt | 1 +  
+ emailproxy.config           | 6 +++---  
+ 2 files changed, 4 insertions(+), 3 deletions(-)  
+ create mode 100644 test.txt
+</code></pre><p>Uma dica muito interessante foi a da atribuição da variável de ambiente VISUAL/EDITOR, muito útil para manter uma consistência <em>system-wide</em>. A VISUAL é utilizada com prioridade, e caso o terminal não suporte a primeira opção, a segunda é utilizada (geralmente editores mais simples são colocados aqui)<a href="https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference">²</a> .</p>
+<h2 id="3-rodando-o-proxy-de-email">3. Rodando o proxy de email</h2>
+<p>O setup ser feito com docker é muito bom, uma vez que reduz drasticamente a chance de problemas ocasionados pelo ambiente, além de &ldquo;empacotar&rdquo; lógicas de configurações, dependências e run, ideal para o nosso caso aqui. Curiosidade: quem será que criou a aplicação dentro da google relacionadas ao client_id e client_secret utilizados na configuração??</p>
+<p>O setup ocorreu sem muitos problemas, apenas tive um problema relacionado à uma configuração do cliente git, pois caso eu não deixasse a opção smtpEncryption vazia (consequentemente desativando a transformação da conexão para TLS), o proxy de emails me retornava: <code>Client attempted to begin STARTTLS - please either disable STARTTLS in your client when using the proxy, or set `local_starttls`and provide a `local_certificate_path` and `local_key_path` </code>.</p>
+<h2 id="4-considerações-finais">4. Considerações finais</h2>
+<p>Gostei muito dos métodos, configurações e aprendizados de ambos os tutoriais, parabéns aos envolvidos :)
+A única alteração que eu sugeriria para o tutorial seria no docker-compose.yml do serviço de proxy - ao invés de subir o container, conectar nele e rodar o emailproxy, já utilizar o Dockerfile para incluir o run do emaildocker, assim cortando um passo de execução.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-04-03
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>
