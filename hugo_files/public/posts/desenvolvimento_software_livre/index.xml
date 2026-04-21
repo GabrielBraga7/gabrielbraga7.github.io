@@ -6,8 +6,15 @@
     <description>Recent content in Desenvolvimento de Software Livre on GabrielBLOg</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
-    <lastBuildDate>Tue, 07 Apr 2026 22:03:00 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2026 19:50:00 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/desenvolvimento_software_livre/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Contribuições para o kernel linux</title>
+      <link>http://localhost:1313/posts/desenvolvimento_software_livre/contribuicao-kernel/</link>
+      <pubDate>Tue, 21 Apr 2026 19:50:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/desenvolvimento_software_livre/contribuicao-kernel/</guid>
+      <description>← Back to Desenvolvimento de Software Livre 1. Considerações iniciais Para realizar a confecção dos PATCHES para o kernel linux, formei um grupo com o Ellian Carlos e o Ricardo Kojo, e escolhemos duas sugestões de contribuições: a deduplicação de código das funções de init de dois devices do iio, que ficam no arquivo drivers/iio/light/veml6030.c::veml6030_hw_init e veml6035_hw_init, e a substituição de chamadas mutex_lock(&amp;amp;lock) e mutex_unlock(&amp;amp;lock) por guard(mutex)(&amp;amp;lock), a fim de trazer uma segurança maior na utilização de locks.</description>
+    </item>
     <item>
       <title>Tutorial 7 e 8 - Aprendizado, configuração e implementações novas do iio_simple_dummy</title>
       <link>http://localhost:1313/posts/desenvolvimento_software_livre/tutorial7_8-iio-simple-dummy/</link>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Contribuições para o kernel linux &ndash; GabrielBLOg</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/palettes/material.css">
+<link rel="stylesheet" href="http://localhost:1313/css/risotto.css">
+<link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Contribuições para o kernel linux &ndash; GabrielBLOg" />
+<meta property="og:url" content="http://localhost:1313/posts/desenvolvimento_software_livre/contribuicao-kernel/" />
+
+  
+
+<meta property="og:locale" content="pt" />
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+      <li class="nomarker"><h1 class="page__logo"><a href="http://localhost:1313/" class="page__logo-inner">GabrielBLOg</a></h1></li>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item active" href="http://localhost:1313/posts/" title="Posts">Posts</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+    <header class="content__header">
+        <h1>Contribuições para o kernel linux</h1>
+    </header>
+    <div class="content__body">
+        
+<a href="/posts/desenvolvimento_software_livre/">← Back to Desenvolvimento de Software Livre</a>
+
+<h2 id="1-considerações-iniciais">1. Considerações iniciais</h2>
+<p>Para realizar a confecção dos PATCHES para o kernel linux, formei um grupo com o <a href="https://elliancarlos.com.br/posts/tag/mac0470/">Ellian Carlos</a> e o <a href="https://ricardokojo.github.io/MAC5856-2026/">Ricardo Kojo</a>, e escolhemos duas sugestões de contribuições: a deduplicação de código das funções de init de dois devices do iio, que ficam no arquivo drivers/iio/light/veml6030.c::veml6030_hw_init e veml6035_hw_init, e a substituição de chamadas <code>mutex_lock(&amp;lock)</code> e <code>mutex_unlock(&amp;lock)</code> por <code>guard(mutex)(&amp;lock)</code>, a fim de trazer uma segurança maior na utilização de locks. Eu acabei trabalhando mais no PATCH da deduplicação, enquanto o Ellian e o Ricardo trabalharam mais no do mutex, porém com contribuições simultâneas e importantes entre nós, de forma que todos acabaram ajudando em cada etapa de ambos.</p>
+<h2 id="2-patch-de-deduplicação">2. PATCH de deduplicação</h2>
+<p>Para este PATCH, a estratégia abordada foi de encapsular os valores de configurações diferentes entre as funções de init em uma struct nova, declarar duas variáveis constantes deste tipo com os valores para o veml6030 e o veml6035, criar uma função genérica que aceite este parâmetro e chamar ela no init do 6030 e do 6035, assim eliminando o código duplicado. o gain_sel_size teve que ser incluido pois chamar a macro ARRAY_SIZE para o gain_sel acabou não funcionando devido ao tipo ser ponteiro. Enviamos o patch para o CI do IME, passou nos testes e enviamos o PATCH, com uma resposta amigável indicando possíveis mudanças, como a remoção do caractere &lsquo;x&rsquo; nas declarações e a remoção das funções wrapper. Ainda iremos avaliar, realizar as mudanças e ressubmeter uma v2.</p>
+<pre tabindex="0"><code>struct veml603x_hw_init_config {
+	const struct iio_gain_sel_pair *gain_sel;
+	int gain_sel_size;
+	int gain_max_scale_int;
+	int gain_max_scale_nano;
+	unsigned int reg_als_conf_value;
+};
+</code></pre><h2 id="3-patch-do-mutex">3. PATCH do mutex</h2>
+<p>Apenas revisei e me comuniquei com o Ellian e o Ricardo sobre este PATCH, mas ambos tiveram maior contribuição. Neste, selecionamos o driver /drivers/block/null_blk, que além de não ter uma complexidade alta de código, é uma peça importante. Importante mencionar que foi utilizado o spin_lock e spin_unlock, e os arquivos modificados foram main.c, zoned.c and nullblk.h. Já recebemos uma resposta não muito amigável :P que questionou o motivo de termos atribuído um retorno de função a uma variável, apenas para retorná-la na linha seguinte. Acabamos removendo esta etapa intermediária e reenviamos uma v2, pendente de resposta ainda.</p>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+            </section>
+
+            <section class="page__aside">
+                <div class="aside__about">
+
+<ul class="aside__social-links">
+    
+</ul>
+</div>
+                <hr>
+                <div class="aside__content">
+    
+    
+        <p>
+            
+            2026-04-21
+        </p>
+    
+
+    
+
+                </div>
+            </section>
+
+            <footer class="page__footer"><p>
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+      
+      
+          
+            
+            
+                <br/><span class="active">$ echo $LANG<br/><b></b></span><br/>
+
+            
+          
+      
+    
+</p>
+<br /><br />
+<p class="copyright"></p>
+<p class="advertisement">Powered by <a href="https://gohugo.io/">hugo</a> and <a href="https://github.com/joeroe/risotto">risotto</a>.</p>
+</footer>
+
+        </div>
+    </body>
+
+</html>
